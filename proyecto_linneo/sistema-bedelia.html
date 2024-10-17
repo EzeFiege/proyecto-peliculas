@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión Educativa - Bedelia</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .form-section {
+            background: #f4f4f4;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            background: #eee;
+            border: none;
+            cursor: pointer;
+        }
+
+        .tab.active {
+            background: #007bff;
+            color: white;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sistema de Gestión - Bedelia</h1>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="cambiarTab('estudiantes')">Estudiantes</button>
+            <button class="tab" onclick="cambiarTab('planes')">Planes de Estudio</button>
+            <button class="tab" onclick="cambiarTab('cohortes')">Cohortes</button>
+        </div>
+
+        <!-- Formulario de Registro de Estudiantes -->
+        <div id="estudiantes" class="form-section">
+            <h2>Registro de Estudiantes</h2>
+            <form id="formularioEstudiante">
+                <div class="form-group">
+                    <label for="legajo">Número de Legajo:</label>
+                    <input type="text" id="legajo" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="cuil">CUIL:</label>
+                    <input type="text" id="cuil" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="nombres">Nombres:</label>
+                    <input type="text" id="nombres" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="apellidos">Apellidos:</label>
+                    <input type="text" id="apellidos" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="direccion">Dirección:</label>
+                    <input type="text" id="direccion" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="telefono">Teléfono:</label>
+                    <input type="tel" id="telefono" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="whatsapp">WhatsApp:</label>
+                    <input type="tel" id="whatsapp">
+                </div>
+
+                <h3>Datos del Tutor</h3>
+                <div class="form-group">
+                    <label for="nombreTutor">Nombre del Tutor:</label>
+                    <input type="text" id="nombreTutor">
+                </div>
+
+                <div class="form-group">
+                    <label for="contactoTutor">Contacto del Tutor:</label>
+                    <input type="tel" id="contactoTutor">
+                </div>
+
+                <h3>Contacto de Emergencia</h3>
+                <div class="form-group">
+                    <label for="nombreEmergencia">Nombre:</label>
+                    <input type="text" id="nombreEmergencia" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="telefonoEmergencia">Teléfono:</label>
+                    <input type="tel" id="telefonoEmergencia" required>
+                </div>
+
+                <button type="submit">Guardar Estudiante</button>
+            </form>
+        </div>
+
+        <!-- Sección de Planes de Estudio -->
+        <div id="planes" class="form-section" style="display: none;">
+            <h2>Gestión de Planes de Estudio</h2>
+            <form id="formularioPlanes">
+                <div class="form-group">
+                    <label for="carrera">Carrera:</label>
+                    <select id="carrera" required>
+                        <option value="">Seleccione una carrera</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="materia">Materia:</label>
+                    <input type="text" id="materia" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="planEstudio">Plan de Estudio:</label>
+                    <textarea id="planEstudio" rows="4" required></textarea>
+                </div>
+
+                <button type="submit">Guardar Plan de Estudio</button>
+            </form>
+        </div>
+
+        <!-- Sección de Cohortes -->
+        <div id="cohortes" class="form-section" style="display: none;">
+            <h2>Gestión de Cohortes</h2>
+            <form id="formularioCohortes">
+                <div class="form-group">
+                    <label for="añoIngreso">Año de Ingreso:</label>
+                    <input type="number" id="añoIngreso" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="descripcionCohorte">Descripción:</label>
+                    <textarea id="descripcionCohorte" rows="4" required></textarea>
+                </div>
+
+                <button type="submit">Guardar Cohorte</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function cambiarTab(tabName) {
+            // Ocultar todas las secciones
+            document.querySelectorAll('.form-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Mostrar la sección seleccionada
+            document.getElementById(tabName).style.display = 'block';
+            
+            // Actualizar estados de las pestañas
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // Manejadores de formularios
+        document.getElementById('formularioEstudiante').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Aquí irá la lógica para enviar datos al servidor
+            console.log('Guardando estudiante...');
+        });
+
+        document.getElementById('formularioPlanes').addEventListener('submit', function(e) {
+            e.preventDefault();
+            console.log('Guardando plan de estudio...');
+        });
+
+        document.getElementById('formularioCohortes').addEventListener('submit', function(e) {
+            e.preventDefault();
+            console.log('Guardando cohorte...');
+        });
+    </script>
+</body>
+</html>
